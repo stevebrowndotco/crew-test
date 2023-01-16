@@ -6,6 +6,9 @@ import { Comment } from "../comment";
 import { HiOutlinePaperAirplane } from "react-icons/hi";
 import classNames from "classnames";
 
+interface Props {
+  active: boolean;
+}
 export interface CommentModel {
   name: string;
   comment?: string;
@@ -14,7 +17,7 @@ export interface CommentModel {
   date: Date;
 }
 
-export const ReactionComponent = () => {
+export const ReactionComponent = ({ active }: Props) => {
   const [comments, setComments] = useState<Array<CommentModel>>([]);
   const [currentComment, setCurrentComment] = useState<string>();
   const [currentEmoji, setCurrentEmoji] = useState<string>();
@@ -61,7 +64,16 @@ export const ReactionComponent = () => {
   }, []);
 
   return (
-    <div className={`p-4 bg-slate-800 rounded-lg shadow-2xl`}>
+    <div
+      className={`p-4 bg-slate-800 rounded-lg shadow-2xl transition-all ${classNames(
+        {
+          "opacity-0": !active,
+          "opacity-100": active,
+          "scale-50": !active,
+          "scale-100": active,
+        }
+      )}`}
+    >
       <div>
         {comments.map((comment, i) => (
           <Comment comment={comment} key={i} />
@@ -74,6 +86,7 @@ export const ReactionComponent = () => {
           <div className="flex my-2">
             {emojis.map((emoji, i) => (
               <div
+                key={i}
                 role="button"
                 className={`p-4 rounded-full h-10 w-10 flex items-center justify-center bg-slate-900 text-white ${classNames(
                   { "border-2": emoji === currentEmoji },

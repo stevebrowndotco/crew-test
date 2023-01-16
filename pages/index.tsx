@@ -1,9 +1,10 @@
 import Head from "next/head";
 import { PointOfInterest } from "@/components/point-of-interest";
 import { ReactionComponent } from "@/components/reaction-component";
+import { useState } from "react";
 
 export default function Home() {
-  const handleOnClick = () => {};
+  const [active, setActive] = useState(false);
 
   return (
     <>
@@ -16,9 +17,16 @@ export default function Home() {
       <main className="pt-12">
         <div className="container mx-auto flex items-center justify-center h-full p-4">
           <div>
-            <h1 className="text-4xl text-center mb-4">Crew3 Test</h1>
-            <PointOfInterest onClick={handleOnClick} />
-            <ReactionComponent />
+            <div className="text-center">
+              <h1 className="text-4xl  mb-4">Crew3 Test</h1>
+              <p>By Steve Brown</p>
+              <p className="text-center">
+                Tap or click the point of interest below to comment
+              </p>
+            </div>
+
+            <PointOfInterest onClick={() => setActive(!active)} />
+            <ReactionComponent active={active} />
           </div>
         </div>
       </main>
